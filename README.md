@@ -7,7 +7,7 @@ This repository aims to enhance the existing Bitget SDK by providing more compre
 ```
 git clone https://github.com/parker178912/BitgetAPI.git
 ```
-2. Add a config file and fill in API info.
+2. Add a config.py file and fill in API info.
 ```
 apikey = ''
 secretkey = ''
