@@ -22,7 +22,6 @@ class AccountApi(Client):
         Obtain user account information
         symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
         marginCoin: Deposit currency, ex: "USDT"
-        :return:
         '''
         params = {}
         if symbol and marginCoin:
@@ -32,88 +31,39 @@ class AccountApi(Client):
         else:
             return "pls check args"
 
-    def setLeverage(self, symbol: str, marginCoin: str, leverage: str, holdSide: str=''):
+    def accounts(self, productType: str):
         '''
-        Adjusting lever
+        Get account information list
+        productType: Contract transaction pair productType, ex: "umcbl"
+        '''
+        params = {}
+        if productType:
+            params['productType'] = productType
+            return self._request_with_params(GET, MIX_ACCOUNT_V1_URL + '/accounts', params)
+        else:
+            return "pls check args"
+
+    def sub_account_contract_assets(self, productType: str):
+        '''
+        Get all subaccount asset information
+        productType: Contract transaction pair productType, ex: "umcbl"
+        '''
+        params = {}
+        if productType:
+            params['productType'] = productType
+            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/sub-account-contract-assets', params)
+        else:
+            return "pls check args"
+
+    def open_count(self, symbol: str, marginCoin: str, openPrice: str | float | int, openAmount: str | float | int, leverage: int=20):
+        '''
+        Query the number of open sheets
         symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
-        marginCoin: Deposit currency, ex: "USDT"
-        leverage: Leverage ratio, ex: "20"
-        holdSide: Position side (only send in fixed margin), ex: "long", "short"
-        :return:
+        marginCoin: Deposit currency, ex: "USDT"\\
+        openPrice： Opening price, ex: "23189.5"
+        openAmount: Opening limit, ex: "5000"
+        leverage: Default leverage 20, ex: "50"
         '''
-        params = {}
-        if symbol and marginCoin:
-            params["symbol"] = symbol
-            params["marginCoin"] = marginCoin
-            params["leverage"] = leverage
-            params["holdSide"] = holdSide
-            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/setLeverage', params)
-        else:
-            return "pls check args"
-
-    def setMargin(self, symbol, marginCoin, amount, holdSide=''):
-        '''
-        Adjustment margin
-        symbol: Contract transaction pair
-        marginCoin: Deposit currency
-        amount: Positive increase and negative decrease of deposit amount
-        holdSide: In the position direction, long multi position short short short positions can not be transferred in case of full positions
-        :return:
-        '''
-        params = {}
-        if symbol and marginCoin:
-            params["symbol"] = symbol
-            params["marginCoin"] = marginCoin
-            params["amount"] = amount
-            params["holdSide"] = holdSide
-            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/setMargin', params)
-        else:
-            return "pls check args"
-
-    def setMarginMode(self, symbol, marginCoin, marginMode):
-        '''
-        Adjust margin mode
-        symbol: Contract transaction pair
-        marginCoin: Deposit currency
-        marginMode: Fixed warehouse by warehouse crossed full warehouse
-        :return:
-        '''
-        params = {}
-        if symbol and marginCoin:
-            params["symbol"] = symbol
-            params["marginCoin"] = marginCoin
-            params["marginMode"] = marginMode
-            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/setMarginMode', params)
-        else:
-            return "pls check args"
-
-    '''
-    Set position mode
-    symbol: Contract transaction pair
-    marginCoin: Deposit currency
-    holdMode: Position mode single_ Hold single position double_ Hold Bidirectional Position Default Bidirectional Position
-    :return:
-    '''
-    def position_mode(self, symbol, marginCoin, holdMode):
-        params = {}
-        if symbol and marginCoin and holdMode:
-            params["symbol"] = symbol
-            params["marginCoin"] = marginCoin
-            params["holdMode"] = holdMode
-            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/setPositionMode', params)
-        else:
-            return "pls check args"
-
-    '''
-    Query the number of open sheets
-    symbol: Contract transaction pair
-    marginCoin: Deposit currency
-    openPrice： Opening price
-    openAmount: Opening limit
-    leverage: Default leverage 20
-    :return:
-    '''
-    def open_count(self, symbol, marginCoin, openPrice, openAmount, leverage=20):
         params = {}
         if symbol and marginCoin and openPrice and openAmount:
             params["symbol"] = symbol
@@ -125,33 +75,117 @@ class AccountApi(Client):
         else:
             return "pls check args"
 
-    '''
-    Get account information list
-    productType: Umcbl (USDT professional contract) dmcbl (mixed contract) sumcbl (USDT professional contract simulation disk) sdmcbl (mixed contract simulation disk)
-    :return:
-    '''
-    def accounts(self, productType):
+    def setLeverage(self, symbol: str, marginCoin: str, leverage: str, holdSide: str=''):
+        '''
+        Adjusting levererage
+        symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
+        marginCoin: Deposit currency, ex: "USDT"
+        leverage: Leverage ratio, ex: "20"
+        holdSide: Position side (only send in fixed margin), ex: "long", "short"
+        '''
         params = {}
-        if productType:
-            params['productType'] = productType
-            return self._request_with_params(GET, MIX_ACCOUNT_V1_URL + '/accounts', params)
+        if symbol and marginCoin:
+            params["symbol"] = symbol
+            params["marginCoin"] = marginCoin
+            params["leverage"] = leverage
+            params["holdSide"] = holdSide
+            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/setLeverage', params)
         else:
             return "pls check args"
 
-    '''
-    Obtain the list of account flow information
-    :return:
-    '''
-    def accountBill(self, symbol,marginCoin,startTime,endTime,lastEndId = '',pageSize=20,next=False):
+    def setMargin(self, symbol: str, marginCoin: str, amount: str, holdSide: str=''):
+        '''
+        Adjustment margin
+        symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
+        marginCoin: Deposit currency, ex: "USDT"
+        amount: Positive increase and negative decrease of deposit amount, ex: "10", "-10"
+        holdSide: Position side (only send in fixed margin), ex: "long", "short"
+        '''
         params = {}
-        if symbol and marginCoin and startTime and endTime:
-            params['symbol'] = symbol
+        if symbol and marginCoin:
+            params["symbol"] = symbol
+            params["marginCoin"] = marginCoin
+            params["amount"] = amount
+            params["holdSide"] = holdSide
+            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/setMargin', params)
+        else:
+            return "pls check args"
+
+    def setMarginMode(self, symbol: str, marginCoin: str, marginMode: str):
+        '''
+        Adjust margin mode
+        symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
+        marginCoin: Deposit currency, ex: "USDT"
+        marginMode: Postion marginMode, ex: "crossed", "fixed"
+        '''
+        params = {}
+        if symbol and marginCoin:
+            params["symbol"] = symbol
+            params["marginCoin"] = marginCoin
+            params["marginMode"] = marginMode
+            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/setMarginMode', params)
+        else:
+            return "pls check args"
+
+    def setPositionMode(self, productType: str, holdMode: str):
+        '''
+        Set position mode (All transaction pair)
+        productType: Contract transaction pair productType, ex: "umcbl"
+        holdMode: Position holdMod, ex: "single_hold", "double_hold"
+        '''
+        params = {}
+        if productType and holdMode:
+            params["productType"] = productType
+            params["holdMode"] = holdMode
+            return self._request_with_params(POST, MIX_ACCOUNT_V1_URL + '/setPositionMode', params)
+        else:
+            return "pls check args"
+
+    def accountBill(self, productType: str, marginCoin: str, startTime: str, endTime: str, business: str='', pageSize: int=20, lastEndId: str=''):
+        '''
+        Obtain the list of account flow information
+        productType: Contract transaction pair productType, ex: "umcbl" 
+        marginCoin: Deposit currency, ex: "USDT"
+        startTime: Bill start timestamp, ex: "1659403328000"
+        endTime: Bill end timestamp, ex: "1659406928000"
+        business: Business type, ex: "open_long", "open_short"
+        pageSize: Illustrate page size, ex: 20, 50
+        lastEndId: Last Id of account bill, ex: "1076451359571689476"
+        '''
+        params = {}
+        if productType and marginCoin and startTime and endTime:
+            params['productType'] = productType
             params['marginCoin'] = marginCoin
             params['startTime'] = startTime
             params['endTime'] = endTime
+            params['business'] = business
+            params['lastEndId'] = lastEndId
+            params['pageSize'] = pageSize
+            return self._request_with_params(GET, MIX_ACCOUNT_V1_URL + '/accountBill', params)
+        else:
+            return "pls check args"
+        
+    def accountBusinessBill(self, productType: str, marginCoin: str, startTime: str, endTime: str, business: str='', pageSize: int=20, lastEndId: str='', next: bool=False):
+        '''
+        Obtain the list of account flow information
+        productType: Contract transaction pair productType, ex: "umcbl" 
+        startTime: Bill start timestamp, ex: "1659403328000"
+        endTime: Bill end timestamp, ex: "1659406928000"
+        business: Business type, ex: "open_long", "open_short"
+        pageSize: Illustrate page size, ex: 20, 50
+        lastEndId: Last Id of account bill, ex: "1076451359571689476"
+        next: Whether to query the next page, ex: False, True
+        '''
+        params = {}
+        if productType and startTime and endTime:
+            params['productType'] = productType
+            params['marginCoin'] = marginCoin
+            params['startTime'] = startTime
+            params['endTime'] = endTime
+            params['business'] = business
             params['lastEndId'] = lastEndId
             params['pageSize'] = pageSize
             params['next'] = next
-            return self._request_with_params(GET, MIX_ACCOUNT_V1_URL + '/accountBill', params)
+            return self._request_with_params(GET, MIX_ACCOUNT_V1_URL + '/accountBusinessBill', params)
         else:
             return "pls check args"
