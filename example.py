@@ -1,5 +1,6 @@
 import Bitget_api.mix.account_api as account
 import Bitget_api.mix.order_api as order
+import Bitget_api.mix.position_api as position
 from config import *
 
 
@@ -37,7 +38,7 @@ from config import *
 # print(res)
 
 ## Order api(api/mix/v1/order/x)
-order_api = order.OrderApi(apikey, secretkey, passphrase)
+# order_api = order.OrderApi(apikey, secretkey, passphrase)
 
 # res = order_api.placeOrder("BTCUSDT_UMCBL", "USDT", "0.01", "open_long", "limit", "458888", "1660", "normal", False, "1690", "1600")
 # print(res)
@@ -82,4 +83,16 @@ order_api = order.OrderApi(apikey, secretkey, passphrase)
 # print(res)
 
 # res = order_api.allFills("umcbl", startTime="1692514149953", endTime="1692529372089")
+# print(res)
+
+## Position api(api/mix/v1/position/x)
+# position_api = position.PositionApi(apikey, secretkey, passphrase)
+
+# res = position_api.singlePosition("BTCUSDT_UMCBL", "USDT")
+# print(res)
+
+# res = position_api.allPosition("umcbl", "USDT")
+# print(res)
+
+# res = position_api.history_position(startTime="1692514149953", endTime="1692529372089", productType="umcbl")
 # print(res)
