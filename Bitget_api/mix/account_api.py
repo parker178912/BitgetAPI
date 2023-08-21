@@ -7,7 +7,7 @@ from ..consts import *
 class AccountApi(Client):
     def __init__(self, api_key: str, api_secret_key: str, passphrase: str, use_server_time: bool=False, first: bool=False):
         '''
-        AccountApi class is connect to account interface : 
+        ### AccountApi class is connect to account interface : 
         https://bitgetlimited.github.io/apidoc/zh/mix/#df03e301d5
         api_key: API key
         api_secret_key: API secret key
@@ -19,7 +19,7 @@ class AccountApi(Client):
 
     def account(self, symbol: str, marginCoin: str):
         '''
-        Obtain user account information
+        ### Obtain user account information
         symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
         marginCoin: Deposit currency, ex: "USDT"
         '''
@@ -33,7 +33,7 @@ class AccountApi(Client):
 
     def accounts(self, productType: str):
         '''
-        Get account information list
+        ### Get account information list
         productType: Contract transaction pair productType, ex: "umcbl"
         '''
         params = {}
@@ -45,7 +45,7 @@ class AccountApi(Client):
 
     def sub_account_contract_assets(self, productType: str):
         '''
-        Get all subaccount asset information
+        ### Get all subaccount asset information
         productType: Contract transaction pair productType, ex: "umcbl"
         '''
         params = {}
@@ -57,7 +57,7 @@ class AccountApi(Client):
 
     def open_count(self, symbol: str, marginCoin: str, openPrice: str | float | int, openAmount: str | float | int, leverage: int=20):
         '''
-        Query the number of open sheets
+        ### Query the number of open sheets
         symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
         marginCoin: Deposit currency, ex: "USDT"\\
         openPrice： Opening price, ex: "23189.5"
@@ -77,7 +77,7 @@ class AccountApi(Client):
 
     def setLeverage(self, symbol: str, marginCoin: str, leverage: str, holdSide: str=''):
         '''
-        Adjusting levererage
+        ### Adjusting levererage
         symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
         marginCoin: Deposit currency, ex: "USDT"
         leverage: Leverage ratio, ex: "20"
@@ -95,7 +95,7 @@ class AccountApi(Client):
 
     def setMargin(self, symbol: str, marginCoin: str, amount: str, holdSide: str=''):
         '''
-        Adjustment margin
+        ### Adjustment margin
         symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
         marginCoin: Deposit currency, ex: "USDT"
         amount: Positive increase and negative decrease of deposit amount, ex: "10", "-10"
@@ -113,7 +113,7 @@ class AccountApi(Client):
 
     def setMarginMode(self, symbol: str, marginCoin: str, marginMode: str):
         '''
-        Adjust margin mode
+        ### Adjust margin mode
         symbol: Contract transaction pair, ex: "BTCUSDT_UMCBL"
         marginCoin: Deposit currency, ex: "USDT"
         marginMode: Postion marginMode, ex: "crossed", "fixed"
@@ -129,7 +129,7 @@ class AccountApi(Client):
 
     def setPositionMode(self, productType: str, holdMode: str):
         '''
-        Set position mode (All transaction pair)
+        ### Set position mode (All transaction pair)
         productType: Contract transaction pair productType, ex: "umcbl"
         holdMode: Position holdMod, ex: "single_hold", "double_hold"
         '''
@@ -143,7 +143,7 @@ class AccountApi(Client):
 
     def accountBill(self, productType: str, marginCoin: str, startTime: str, endTime: str, business: str='', pageSize: int=20, lastEndId: str=''):
         '''
-        Obtain the list of account flow information
+        ### Obtain the list of account flow information
         productType: Contract transaction pair productType, ex: "umcbl" 
         marginCoin: Deposit currency, ex: "USDT"
         startTime: Bill start timestamp, ex: "1659403328000"
@@ -167,7 +167,7 @@ class AccountApi(Client):
         
     def accountBusinessBill(self, productType: str, marginCoin: str, startTime: str, endTime: str, business: str='', pageSize: int=20, lastEndId: str='', next: bool=False):
         '''
-        Obtain the list of account flow information
+        ### Obtain the list of account flow information
         productType: Contract transaction pair productType, ex: "umcbl" 
         startTime: Bill start timestamp, ex: "1659403328000"
         endTime: Bill end timestamp, ex: "1659406928000"
